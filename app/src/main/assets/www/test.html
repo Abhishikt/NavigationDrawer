@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+<body>
+
+<form id="form" action="test.html" method="post">
+Name: <input type="text" name="name"><br>
+Age: <input type="text" name="email"><br>
+FavColor: <input type="text" name="favc"><br>
+<input id="submit" type="button" name="submit" value="submit">
+</form>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // click on button submit
+        $("#submit").on('click', function(){
+       //alert("hello");
+
+            // send ajax
+            $.ajax({
+                url: "test.html", // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                contentType: 'application/json',
+                data : $("#form").serialize(), // post data || get data
+                success : function(result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    alert(JSON.stringify(result));
+                },
+                error: function(xhr, resp, text) {
+                    alert(xhr, resp, text);
+                }
+            })
+        });
+    });
+
+</script>
+</body>
+</html>

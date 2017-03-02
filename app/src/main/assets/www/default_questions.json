@@ -1,0 +1,23 @@
+﻿{
+    "survey_id": "12345",
+    "survey_title": "Test Survey",
+    "QType": [
+        {"type":1, "desc": "Description" },
+        {"type":2, "desc": "Yes/No" },
+        {"type":3, "desc": "Options" },
+        {"type":4, "desc": "Multiple Choice (Checkbox)" },
+        {"type":5, "desc": "Star Rating" }
+    ],
+    "questions": [        
+            {"ques_id": "1", "ques_no": 1, "type": 1, "ques_text": "Total number of Sponsered Children?", "value": "" },
+            {"ques_id": "2", "ques_no": 2, "type": 3, "ques_text": "Gender?", "value": [{"option": "male", "text": "Male"}, {"option": "female", "text": "Female"}] },
+            {"ques_id": "3", "ques_no": 3, "type": 1, "ques_text": "No of Sponsered Child noticeably pregnant?", "value": ""},
+            {"ques_id": "4", "ques_no": 4, "type": 4, "ques_text": "What language does the family speak at home?", "value": [{"option": 1, "text": "Moore"},{"option": 2, "text": "Dioula"},{"option": 3, "text": "Dagara"},{"option": 4, "text": "Others"}] },
+            {"ques_id": "5", "ques_no": 5, "type": 3, "ques_text": "What is the religion of the SC?", "value": [{"option": 1, "text": "Buddhist"},{"option": 2, "text": "Christian"}, {"option": 3, "text": "Local Religion"}, {"option": 4, "text": "Not Shared"}, {"option": 5, "text": "Others"}] },
+            {"ques_id": "6", "ques_no": 6, "type": 3, "ques_text": "Has the SCs birth been registered and is there supporting documentation?", "value": [{"option": 1, "text": "Registered and documents shown"}, {"option": 2, "text": "Registered but no documents shown"}, {"option": 3, "text": "Not registered"}, {"option": 4, "text": "Don't Know"}]},
+            {"ques_id": "7", "ques_no": 7, "type": 3, "ques_text": "If not registered, why is the SCs birth not registered?", "value": [{ "option": 1, "text": "Cost too much"},{ "option": 2, "text": "Must travel too far"},{ "option": 3, "text": "Did not know should be registered"},{ "option": 4, "text": "Late and did not want to pay the fine"},{ "option": 5, "text": "Does not know where to register"},{ "option": 6, "text": "Does not understand the process of registering a child"},{ "option": 7, "text": "Others" }]},
+            {"ques_id": "8", "ques_no": 8, "type": 2, "ques_text": "Is the SC living in the same household as 12 months ago?", "value": [{ "option": 1, "text": "Yes" },{ "option": 2, "text": "No" }]},
+            {"ques_id": "9", "ques_no": 9, "type": 3, "ques_text": "If mother and father are not living with the SC, what is the reason?", "value": [{ "option": 1, "text": "Left to seek employment"},{ "option": 2, "text": "To live with relatives"},{ "option": 3, "text": "For more fertile land"},{ "option": 4, "text": "Unknown"},{ "option": 5, "text": "Both died (SC Orphan)"}]},
+            {"ques_id": "10", "ques_no": 10, "type": 5, "ques_text": "Does your parent treats you well? ", "value": ""}
+    ]
+}

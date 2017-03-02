@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_register_child"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Register Child" />
+        <item
+            android:id="@+id/nav_add_committee_member"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Add Committee Members" />
+        <item
+            android:id="@+id/nav_mom"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="Minutes of Meeting" />
+        <item
+            android:id="@+id/nav_surveylist"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Surveys" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_sync"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Sync Data" />
+            <item
+                android:id="@+id/nav_messages"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Messages" />
+        </menu>
+    </item>
+
+</menu>

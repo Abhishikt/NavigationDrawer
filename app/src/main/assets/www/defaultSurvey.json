@@ -1,0 +1,242 @@
+﻿{
+	"survey_id": "15788FE0-6388-41D7-BF95-8265034DA981",
+	"survey_title": "CPC Child Registration",
+	"questions": [{
+		"ques_id": "0D163129-850F-4BDA-98F7-7A1583BDA1AE",
+		"ques_no": 1,
+		"type": 4,
+		"skippable": false,
+		"logic": false,
+		"category": "Child’s Vulnerability Status",
+		"ques_text": "Is the child ____",
+		"Choices": [{
+			"option": 1,
+			"text": "A son or a daughter of a widow/ single parent",
+			"refQuestion": null
+		}, {
+			"option": 2,
+			"text": "Taking care of her/ his family",
+			"refQuestion": null
+		}, {
+			"option": 3,
+			"text": "Physically challenged who is not looked after by anyone",
+			"refQuestion": null
+		}, {
+			"option": 4,
+			"text": "A son or daughter whose mother or father in in prison",
+			"refQuestion": null
+		}, {
+			"option": 5,
+			"text": "Left by parents and is living with her/ his grand parents",
+			"refQuestion": null
+		}, {
+			"option": 6,
+			"text": "An HIV affected children",
+			"refQuestion": null
+		}, {
+			"option": 7,
+			"text": "Whose mother or father is/ are physically challenged or have serious health issues",
+			"refQuestion": null
+		}, {
+			"option": 8,
+			"text": "Engaged in drug addiction",
+			"refQuestion": null
+		}, {
+			"option": 9,
+			"text": "Herself/ himself or/ and adults in her/ his family does unsafe migration",
+			"refQuestion": null
+		}, {
+			"option": 10,
+			"text": "Engaged in child labour or rescued from child trafficking",
+			"refQuestion": null
+		}, {
+			"option": 11,
+			"text": "Who is/ has been used in the past for illegal activities",
+			"refQuestion": null
+		}, {
+			"option": 12,
+			"text": "From extremely poor, landless and BPL families",
+			"refQuestion": null
+		}, {
+			"option": 13,
+			"text": "Married under the legal age – girls 18, and boys 21",
+			"refQuestion": null
+		}, {
+			"option": 14,
+			"text": "A Particularly vulnerable tribal group (PVTG) children",
+			"refQuestion": null
+		}, {
+			"option": 15,
+			"text": "None of the above.",
+			"refQuestion": null
+		}]
+	}, {
+		"ques_id": "3C342E44-3624-47F0-B61A-6FF3FD3D3784",
+		"ques_no": 2,
+		"type": 3,
+		"skippable": false,
+		"logic": false,
+		"category": "Birth Registration",
+		"ques_text": "Has the child’s birth been registered and is there supporting documentation?",
+		"Choices": [{
+			"option": 1,
+			"text": "Registered and documents available",
+			"refQuestion": null
+		}, {
+			"option": 2,
+			"text": "Registered but no documents available",
+			"refQuestion": null
+		}, {
+			"option": 3,
+			"text": "Not Registered",
+			"refQuestion": null
+		}, {
+			"option": 4,
+			"text": "Don't know",
+			"refQuestion": null
+		}]
+	}, {
+		"ques_id": "CDC0E8AE-4115-4047-B5DB-A2B78E6EB62E",
+		"ques_no": 3,
+		"type": 2,
+		"skippable": false,
+		"logic": true,
+		"category": "Education",
+		"ques_text": "Does the child regularly attend formal education?",
+		"Choices": [{
+			"option": 1,
+			"text": "Yes",
+			"refQuestion": {
+				"ques_id": "1AF9864B-D786-46A2-9616-7A5878C4334A",
+				"ques_no": 4,
+				"type": 3,
+				"skippable": false,
+				"logic": false,
+				"category": "Education",
+				"ques_text": "Which type of formal education does the SC regularly attend?",
+				"Choices": [{
+					"option": 1,
+					"text": "Nursery",
+					"refQuestion": null
+				}, {
+					"option": 2,
+					"text": "Preschool",
+					"refQuestion": null
+				}, {
+					"option": 3,
+					"text": "Primary",
+					"refQuestion": null
+				}, {
+					"option": 4,
+					"text": "Secondary school (e.g. middle, junior high, high schools)",
+					"refQuestion": null
+				}, {
+					"option": 5,
+					"text": "University/ college",
+					"refQuestion": null
+				}, {
+					"option": 6,
+					"text": "School for children with disabilities",
+					"refQuestion": null
+				}, {
+					"option": 7,
+					"text": "Vocational (over three month course)",
+					"refQuestion": null
+				}]
+			}
+		}, {
+			"option": 2,
+			"text": "No",
+			"refQuestion": {
+				"ques_id": "98BC7341-D444-4A1A-BDE8-696DB1258F3F",
+				"ques_no": 6,
+				"type": 4,
+				"skippable": false,
+				"logic": false,
+				"category": "Education",
+				"ques_text": "Why is the child not regularly attending formal education?",
+				"Choices": [{
+					"option": 1,
+					"text": "Distance learning",
+					"refQuestion": null
+				}, {
+					"option": 2,
+					"text": "Is too young",
+					"refQuestion": null
+				}, {
+					"option": 3,
+					"text": "Is too old",
+					"refQuestion": null
+				}, {
+					"option": 4,
+					"text": "Did not pass the secondary school entrance exam",
+					"refQuestion": null
+				}, {
+					"option": 5,
+					"text": "Economic reasons",
+					"refQuestion": null
+				}, {
+					"option": 6,
+					"text": "The school is too far from home",
+					"refQuestion": null
+				}, {
+					"option": 7,
+					"text": "Due to illness",
+					"refQuestion": null
+				}, {
+					"option": 8,
+					"text": "Due to marriage",
+					"refQuestion": null
+				}, {
+					"option": 9,
+					"text": "Need to help the family",
+					"refQuestion": null
+				}, {
+					"option": 10,
+					"text": "Due to impairment",
+					"refQuestion": null
+				}, {
+					"option": 11,
+					"text": "Working for someone outside the family",
+					"refQuestion": null
+				}, {
+					"option": 12,
+					"text": "Expelled due to repetition",
+					"refQuestion": null
+				}, {
+					"option": 13,
+					"text": "Formal primary education is not considered important",
+					"refQuestion": null
+				}, {
+					"option": 14,
+					"text": "Formal secondary education is not considered important",
+					"refQuestion": null
+				}, {
+					"option": 15,
+					"text": "Expelled due to other reasons",
+					"refQuestion": null
+				}, {
+					"option": 16,
+					"text": "Fear and/ or experience of violence on the way to/ from school",
+					"refQuestion": null
+				}, {
+					"option": 17,
+					"text": "Does not have the documents required to access formal education",
+					"refQuestion": null
+				}, {
+					"option": 18,
+					"text": "Skip classes",
+					"refQuestion": null
+				}, {
+					"option": 19,
+					"text": "No school/ teacher available",
+					"refQuestion": null
+				}, {
+					"option": 20,
+					"text": "Lack of water and sanitation facilities",
+					"refQuestion": null
+				}]
+			}
+		}]
+	}]
+}

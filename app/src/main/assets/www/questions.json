@@ -1,0 +1,302 @@
+{
+  "survey_id": "s2_3",
+  "survey_title": "Education",
+  "QType": [
+    { "type": 1, "desc": "Description" },
+    { "type": 2, "desc": "Yes/No" },
+    { "type": 3, "desc": "Options" },
+    { "type": 4, "desc": "Multiple Choice (Checkbox)" },
+    { "type": 5, "desc": "Star Rating" },
+    { "type": 6, "desc": "Logical decision" }
+  ],
+  "questions": [
+    {
+      "ques_id": "1",
+      "ques_no": 1,
+      "type": 4,
+      "optional": false,
+      "ques_text": "Is the child ____",
+      "value": [
+        {
+          "option": 1,
+          "text": "A son or a daughter of a widow/ single parent"
+        },
+        {
+          "option": 2,
+          "text": "Taking care of her/ his family"
+        },
+        {
+          "option": 3,
+          "text": "Physically challenged who is not looked after by anyone"
+        },
+        {
+          "option": 4,
+          "text": "A son or daughter whose mother or father in in prison"
+        },
+        {
+          "option": 5,
+          "text": "Left by parents and is living with her/ his grand parents"
+        },
+        {
+          "option": 6,
+          "text": "An HIV affected children"
+        },
+        {
+          "option": 7,
+          "text": "Whose mother or father is/ are physically challenged or have serious health issues"
+        },
+        {
+          "option": 8,
+          "text": "Engaged in drug addiction"
+        },
+        {
+          "option": 9,
+          "text": "Herself/ himself or/ and adults in her/ his family does unsafe migration"
+        },
+        {
+          "option": 10,
+          "text": "Engaged in child labour or rescued from child trafficking"
+        },
+        {
+          "option": 11,
+          "text": "Who is/ has been used in the past for illegal activities"
+        },
+        {
+          "option": 12,
+          "text": "From extremely poor, landless and BPL families"
+        },
+        {
+          "option": 13,
+          "text": "Married under the legal age – girls 18, and boys 21"
+        },
+        {
+          "option": 14,
+          "text": "A Particularly vulnerable tribal group (PVTG) children"
+        }
+      ]
+    },
+    {
+      "ques_id": "2",
+      "ques_no": 2,
+      "type": 3,
+      "optional": false,
+      "ques_text": "Has the child’s birth been registered and is there supporting documentation?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Registered and documents available"
+        },
+        {
+          "option": 2,
+          "text": "Registered but no documents available"
+        },
+        {
+          "option": 3,
+          "text": "Not registered"
+        },
+        {
+          "option": 4,
+          "text": "Don’t know"
+        }
+      ]
+    },
+    {
+      "ques_id": "3",
+      "ques_no": 3,
+      "type": 2,
+      "optional": true,
+      "ques_text": "Does the child regularly attend formal education?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Yes"
+        },
+        {
+          "option": 2,
+          "text": "No"
+        }
+      ]
+    },
+    {
+      "ques_id": "4",
+      "ques_no": 4,
+      "type": 3,
+      "optional": false,
+      "ques_text": "Which type of formal education does the SC regularly attend?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Nursery"
+        },
+        {
+          "option": 2,
+          "text": "Preschool"
+        },
+        {
+          "option": 3,
+          "text": "Primary"
+        },
+        {
+          "option": 4,
+          "text": "Secondary school (e.g. middle, junior high, high schools)"
+        },
+        {
+          "option": 5,
+          "text": "University/ college"
+        },
+        {
+          "option": 6,
+          "text": "School for children with disabilities"
+        },
+        {
+          "option": 7,
+          "text": "Vocational (over three month course)"
+        }
+      ]
+    },
+    {
+      "ques_id": "5",
+      "ques_no": 5,
+      "type": 2,
+      "optional": false,
+      "ques_text": "Is this a boarding school?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Yes"
+        },
+        {
+          "option": 2,
+          "text": "No"
+        }
+      ]
+    },
+    {
+      "ques_id": "6",
+      "ques_no": 6,
+      "type": 4,
+      "optional": false,
+      "ques_text": "Why is the child not regularly attending formal education?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Distance learning"
+        },
+        {
+          "option": 2,
+          "text": "Is too young"
+        },
+        {
+          "option": 3,
+          "text": "Is too old"
+        },
+        {
+          "option": 4,
+          "text": "Did not pass the secondary school entrance exam"
+        },
+        {
+          "option": 5,
+          "text": "Economic reasons"
+        },
+        {
+          "option": 6,
+          "text": "The school is too far from home"
+        },
+        {
+          "option": 7,
+          "text": "Due to illness"
+        },
+        {
+          "option": 8,
+          "text": "Due to marriage"
+        },
+        {
+          "option": 9,
+          "text": "Need to help the family"
+        },
+        {
+          "option": 10,
+          "text": "Due to impairment"
+        },
+        {
+          "option": 11,
+          "text": "Working for someone outside the family"
+        },
+        {
+          "option": 12,
+          "text": "Expelled due to repetition"
+        },
+        {
+          "option": 13,
+          "text": "Formal primary education is not considered important"
+        },
+        {
+          "option": 14,
+          "text": "Formal secondary education is not considered important"
+        },
+        {
+          "option": 15,
+          "text": "Expelled due to other reasons"
+        },
+        {
+          "option": 16,
+          "text": "Fear and/ or experience of violence on the way to/ from school"
+        },
+        {
+          "option": 17,
+          "text": "Does not have the documents required to access formal education"
+        },
+        {
+          "option": 18,
+          "text": "Skip classes"
+        },
+        {
+          "option": 19,
+          "text": "No school/ teacher available"
+        },
+        {
+          "option": 20,
+          "text": "Lack of water and sanitation facilities"
+        }
+      ]
+    },
+    {
+      "ques_id": "7",
+      "ques_no": 7,
+      "type": 2,
+      "optional": false,
+      "ques_text": "Has the child attended non-formal education in the last six months?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Yes"
+        },
+        {
+          "option": 2,
+          "text": "No"
+        }
+      ]
+    },
+    {
+      "ques_id": "8",
+      "ques_no": 8,
+      "type": 4,
+      "optional": false,
+      "ques_text": "What type of non-formal education does the child attend?",
+      "value": [
+        {
+          "option": 1,
+          "text": "Vocational/ technical"
+        },
+        {
+          "option": 2,
+          "text": "Literacy classes"
+        },
+        {
+          "option": 3,
+          "text": "Religious studies"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,389 @@
+<!--<!DOCTYPE html>-->
+<html>
+<head>
+    <title>Survey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <!--RateIt-->
+    <link href="scripts/rateit.css" rel="stylesheet">
+    <!--sticky footer-->
+    <link href="css/sticky-footer.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="scripts/jquery.rateit.min.js"></script>
+    <script type="text/javascript">
+        var qIndex = 0;
+        var maxIndex = 0;
+        var surveyId = null;
+        var Questions = [];
+        var Answers = [];
+        var multiCheckbox = [];
+
+        $(function () {
+             //alert(android.GetSurveyQuestions());
+             //alert(android.GetSurveyQuestions());
+            $(".footer").hide();
+            $.ajax({
+                url: 'defaultSurvey.json',
+                dataType: 'json',
+                success: function (data) {
+                    //alert("loaded");
+                    surveyId = data.survey_id;
+                    maxIndex = data.questions.length;
+                    Questions = data.questions;
+                    if (Questions[qIndex] != null) {
+                        //Load First Question
+                        LoadQuestion(Questions[qIndex]);
+                        //disable Previous button
+                        $("#btnPrev").addClass('disabled');
+                    }
+                }
+            });
+        });
+
+        function GetNextQuestion(index, skip, value) {
+
+            if (qIndex == 0 && index == -1) { $("#btnPrev").addClass('disabled'); return; }
+            var Q = Questions[qIndex]; //current Question            
+            var answer = {};
+
+            answer.survey_id = surveyId;
+            answer.ques_id = Q.ques_id;
+            answer.ques_typ = Q.type;
+
+            switch (Q.type) {
+                case 1: //short description text/number
+                    if (index != -1) { if (!Q.skippable && $("#descriptionText" + Q.ques_no).val() == '') { return; } }
+                    answer.response = $("#descriptionText" + Q.ques_no).val();
+                    break;
+                case 2: //YES/NO
+                    if (index != -1) { if (!Q.skippable && value == undefined) { return; } }
+                    answer.response = value;
+                    break;
+                case 3:    //Radio
+                    for (var i = 0; i < Q.Choices.length; i++) {
+                        var eid = "rdo" + Q.ques_no + "_opt" + Q.Choices[i].option;
+                        if ($("#" + eid)[0].checked) { value = $("#" + eid).val(); }
+                    }
+                    if (index != -1) { if (!Q.skippable && value == undefined) { return; } }
+                    answer.response = value;
+                    break;
+                case 4:  //Multiple checkbox
+                    for (var i = 0; i < Q.Choices.length; i++) {
+                        var eid = "chk" + Q.ques_no + "_opt" + Q.Choices[i].option;
+                        if ($("#" + eid)[0].checked) { multiCheckbox.push($("#" + eid).val()); }
+                    }
+                    if (index != -1) { if (!Q.skippable && multiCheckbox.length == 0) { return; } }
+                    answer.response = multiCheckbox.join(",");
+                    break;
+                case 5: //Star Rating
+                    var res = $("#rateit" + Q.ques_no).rateit('value');
+                    if (index != -1) { if (!Q.skippable && res == 0) { return; } }
+                    answer.response = $("#rateit" + Q.ques_no).rateit('value');
+                    break;
+            }
+            //save answers
+            if (Answers.length == 0) {
+                Answers.push(answer);
+            } else {
+                if (Answers.length <= maxIndex && index != -1) { Answers[qIndex] = answer; }
+            }
+
+            if (Q.logic) {
+                //Logical Question Handling
+                for (var i = 0; i < Q.Choices.length; i++) {
+                    if (answer.response == Q.Choices[i].option) {
+                        Questions.push(Q.Choices[i].refQuestion);
+                        maxIndex += 1;
+                    }
+                }
+            }
+            
+            //get Next Question Index
+            qIndex += index;
+            //android.showMessage(qIndex + " = " + maxIndex);
+            if (qIndex < maxIndex && Questions[qIndex] != null) {
+                //Load Next Question
+                if (index == -1 || Answers[qIndex] != undefined) { LoadPrevQuestion(Questions[qIndex], Answers[qIndex]); } else { LoadQuestion(Questions[qIndex]); }
+
+                //Toggle Previous button
+                if (qIndex == 0) { $("#btnPrev").addClass('disabled'); } else { $("#btnPrev").removeClass('disabled'); }
+                //$("#btnSkip").show();
+                //Toggle Next button
+                if (qIndex == (maxIndex - 1)) { $("#btnNext").text('FINISH'); }  //$("#btnSkip").hide();
+            }
+            else if (qIndex == maxIndex) {
+                qIndex = maxIndex - 1;
+                $("#btnNext").addClass('disabled');
+                //submit response
+                android.SubmitSurveyResponse(JSON.stringify(Answers));
+                alert("submitted");
+                //submit Data
+            }            
+        }
+
+        function setActive(btn) {
+            $(btn).addClass('active');
+        }
+
+        function getMultiCheckboxValues(val) {
+            multiCheckbox.push(val);
+        }
+
+        function LoadPrevQuestion(Question, answer) {
+
+            var header = "<div id=\"Q" + Question.ques_no + "\" class=\"container-fluid\">"; //style=\"margin-top: 20px; padding-left: 20px;\"
+            var ques = "";
+            var footer = "</div>";
+            var blnNext = true;
+            var blnPrev = true;
+            var blnSkip = true;
+            if (Question.ques_no == 1) { blnPrev = false; }
+            if (Question.ques_no == maxIndex || Question.skippable==false) { blnSkip = false; }
+            //Clear main DIV
+            var d = document.getElementById("survey-data");
+            if (d.childNodes.length > 0) { $("#Q" + Question.ques_no).hide(); }
+
+            if (Question.type == 1) {
+                ques += "<div id=\"description_" + Question.ques_no + "\" ><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                ques += "<div class=\"input-group\" >" +
+                       "<input id=\"descriptionText" + Question.ques_no + "\" type=\"text\" class=\"form-control\" placeholder=\"Enter number\" value=\""+answer.response+"\" />" +
+                       "</div>" + "</div>" + "<br>";                
+            }
+            else if (Question.type == 2) {
+                var options = "";
+                options += "<div id=\"yes_no_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>" +
+                    "<div class=\"btn-group btn-group-lg\"><button id=\"\" type=\"button\" class=\"btn btn-success " + (answer.response == Question.Choices[0].option ? "active" : "") + " \" onclick=\"GetNextQuestion(1,false," + Question.Choices[0].option + ");\" value=\"Y\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>" + Question.Choices[0].text + "</button>" +
+                    "<button type=\"button\" class=\"btn btn-danger " + (answer.response == Question.Choices[1].option ? "active" : "") + " \" onclick=\"GetNextQuestion(1,false," + Question.Choices[1].option + ");\" value=\"N\"><span class=\"glyphicon glyphicon-thumbs-down\"></span>" + Question.Choices[1].text + "</button></div>";
+                options += "</div><br>";
+                ques += options;
+
+                blnNext = false;
+            }
+            else if (Question.type == 3) {
+                var options = "";
+                options += "<div id=\"options_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                for (var j = 0; j < Question.Choices.length; j++) {
+
+                    options += "<label class=\"radio\">" +
+                         "<input id=\"rdo" + Question.ques_no + "_opt" + Question.Choices[j].option + "\" value=\"" + Question.Choices[j].option + "\" name=\"radioGrp\" onclick=\"GetNextQuestion(1,false,'" + Question.Choices[j].option + "');\" " + (answer.response.indexOf(Question.Choices[j].option) > -1 ? " checked " : "") + " class=\"custom-radio " + (answer.response.indexOf(Question.Choices[j].option) > -1 ? " icon-checked" : "") + "\" type=\"radio\">" +
+                         "<span class=\"icons\"><span class=\"icon-unchecked\"></span><span class=\"icon-checked\"></span></span>" + Question.Choices[j].text +
+                         "</label>";
+                }
+                options += "</div><br>";
+                ques += options;
+
+                blnNext = false;
+            }
+            else if (Question.type == 4) {
+                var options = "";
+                options += "<div id=\"mcq_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                for (var j = 0; j < Question.Choices.length; j++) {
+                    options += "<label class=\"checkbox\">" +
+                         "<input id=\"chk" + Question.ques_no + "_opt" + Question.Choices[j].option + "\" value=\"" + Question.Choices[j].option + "\" " + (answer.response.indexOf(Question.Choices[j].option) > -1 ? " checked " : "") + " class=\"custom-checkbox " + (answer.response.indexOf(Question.Choices[j].option) > -1 ? " icon-checked" : "") + "\" type=\"checkbox\"/>" +
+                         "<span class=\"icons\"><span class=\"icon-unchecked\"></span>" +
+                         "<span class=\"icon-checked\"></span></span>" + Question.Choices[j].text +
+                         "</label>";
+                }
+                options += "</div><br>";
+                ques += options;
+            }
+            else if (Question.type == 5) {
+                ques += "<div id=\"ratings_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                ques += "<input type=\"hidden\" id=\"backing7\"><div id=\"rateit" + Question.ques_no + "\" class=\"rateit bigstars rateit-bg\" data-rateit-starwidth=\"32\" data-rateit-starheight=\"32\" onclick=\"GetNextQuestion(1,false,'');\"></div></div><br>";
+            }
+
+            //var btns = "<div class=\"col-xs-12\"><input id=\"btnPrev\" class=\"btn-info\" style=\"float:left; padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(-1,false)\" value=\"<< PREV\" type=\"button\">" +
+            //    "<input id=\"btnNext\" class=\"btn-info\" style=\"padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(1,false)\" value=\"NEXT >>\" type=\"button\">" +
+            //      "<input id=\"btnSkip\" class=\"btn-warning\" style=\"padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(1,true)\" value=\"SKIP>>\" type=\"button\">"
+            var btns = "<div class=\"container-fluid\">" +
+                "<button id=\"btnPrev\" class=\"btn btn-info\" onclick=\"GetNextQuestion(-1,false)\" value=\"<< PREV\" type=\"button\"><< PREV</button>&nbsp;" +
+                "<button id=\"btnNext\" class=\"btn btn-info\" onclick=\"GetNextQuestion(1,false)\" value=\"NEXT >>\" type=\"button\">NEXT >></button>&nbsp;" +
+                "<button id=\"btnSkip\" class=\"btn btn-warning\" onclick=\"GetNextQuestion(1,true)\" value=\"SKIP>>\" type=\"button\">SKIP >></button></div>";
+
+            //$("#survey-data").append(header + ques + btns + footer);
+            document.getElementById("survey-data").innerHTML = header + ques + btns + footer;
+            if (Question.type == 5) {
+                $("#rateit" + Question.ques_no).rateit({ max: 5, step: .5, backingfld: '#backing7' });
+                $("#rateit" + Question.ques_no).rateit('value', answer.response);
+            }
+
+            if (blnNext == false) { $("#btnNext").hide(); }
+            if (blnPrev == false) { $("#btnPrev").hide(); }
+            if (blnSkip == false) { $("#btnSkip").hide(); }
+        }
+
+        function LoadQuestion(Question) {
+
+            var header = "<div id=\"Q" + Question.ques_no + "\" class=\"container-fluid\" >"; //style=\"margin-top: 20px; padding-left: 20px;\"
+            var ques = "";
+            var footer = "</div>";
+            var blnNext = true;
+            var blnPrev = true;
+            var blnSkip = true;
+            if (Question.ques_no == 1) { blnPrev = false; }
+            if (Question.ques_no == maxIndex || Question.skippable == false) { blnSkip = false; }
+            //Clear main DIV
+            var d = document.getElementById("survey-data");
+            if (d.childNodes.length > 0) { $("#Q" + Question.ques_no).hide();}
+
+            if (Question.type == 1) {
+                ques += "<div id=\"description_" + Question.ques_no + "\" ><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                ques += "<div style=\"width:100%;\" class=\"input-group\" >" +
+                       "<input id=\"descriptionText" + Question.ques_no + "\" type=\"text\" class=\"form-control\" placeholder=\"Enter number\"/>" +
+                       "</div>" + "</div>" + "<br>";            
+            }
+            else if (Question.type == 2) {
+                var options = "";
+                options += "<div id=\"yes_no_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>" +
+                    "<div class=\"btn-group btn-group-lg\"><button id=\"\" type=\"button\" class=\"btn btn-success\" onclick=\"GetNextQuestion(1,false," + Question.Choices[0].option + ");\" value=\"Y\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>" + Question.Choices[0].text + "</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                    "<button type=\"button\" class=\"btn btn-danger\" onclick=\"GetNextQuestion(1,false," + Question.Choices[1].option + ");\" value=\"N\"><span class=\"glyphicon glyphicon-thumbs-down\"></span>" + Question.Choices[1].text + "</a></div>";
+                options += "</div><br>";
+                ques += options;
+
+                blnNext = false;
+            }
+            else if (Question.type == 3) {
+                var options = "";
+                options += "<div id=\"options_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                for (var j = 0; j < Question.Choices.length; j++) {
+
+                    options += "<label class=\"radio\">" +
+                         "<input id=\"rdo" + Question.ques_no + "_opt" + Question.Choices[j].option + "\" value=\"" + Question.Choices[j].option + "\" name=\"radioGrp\" onclick=\"GetNextQuestion(1,false,'" + Question.Choices[j].option + "');\" class=\"custom-radio\" type=\"radio\">" +
+                         "<span class=\"icons\"><span class=\"icon-unchecked\"></span><span class=\"icon-checked\"></span></span>" + Question.Choices[j].text +
+                         "</label>";
+                }
+                options += "</div><br>";
+                ques += options;
+
+                blnNext = false;
+            }
+            else if (Question.type == 4) {
+                var options = "";
+                options += "<div id=\"mcq_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                for (var j = 0; j < Question.Choices.length; j++) {
+                    options += "<label class=\"checkbox\">" +
+                         "<input id=\"chk" + Question.ques_no + "_opt" + Question.Choices[j].option + "\" value=\"" + Question.Choices[j].option + "\" class=\"custom-checkbox\" type=\"checkbox\"/>" +
+                         "<span class=\"icons\"><span class=\"icon-unchecked\"></span>" +
+                         "<span class=\"icon-checked\"></span></span>" + Question.Choices[j].text +
+                         "</label>";
+                }
+                options += "</div><br>";
+                ques += options;
+            }
+            else if (Question.type == 5) {
+                ques += "<div id=\"ratings_" + Question.ques_no + "\"><h4>" + Question.ques_no + ". " + Question.ques_text + "</h4><br>";
+                ques += "<input type=\"hidden\" id=\"backing7\"><div id=\"rateit" + Question.ques_no + "\" class=\"rateit bigstars rateit-bg\" data-rateit-starwidth=\"32\" data-rateit-starheight=\"32\" onclick=\"GetNextQuestion(1,false,'');\"></div></div><br>";
+            }
+
+            //var btns = "<div class=\"col-xs-12\"><button id=\"btnPrev\" class=\"btn btn-info\" style=\"float:left; padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(-1,false)\" value=\"<< PREV\" type=\"button\">" +
+            //    "<input id=\"btnNext\" class=\"btn btn-info\" style=\"padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(1,false)\" value=\"NEXT >>\" type=\"button\">" +
+            //      "<input id=\"btnSkip\" class=\"btn btn-warning\" style=\"padding:0 5px 0px 5px;margin-left:0px;margin-right:10px;\" name=\"button\" onclick=\"GetNextQuestion(1,true)\" value=\"SKIP>>\" type=\"button\">"
+            var btns = "<div class=\"container-fluid\">" +
+                "<button id=\"btnPrev\" class=\"btn btn-info\" onclick=\"GetNextQuestion(-1,false)\" value=\"<< PREV\" type=\"button\"><< PREV</button>&nbsp;" +
+                "<button id=\"btnNext\" class=\"btn btn-info\" onclick=\"GetNextQuestion(1,false)\" value=\"NEXT >>\" type=\"button\">NEXT >></button>&nbsp;" +
+                "<button id=\"btnSkip\" class=\"btn btn-warning\" onclick=\"GetNextQuestion(1,true)\" value=\"SKIP>>\" type=\"button\">SKIP >></button></div>";
+
+            //$("#survey-data").append(header + ques + btns + footer);
+            document.getElementById("survey-data").innerHTML = header + ques + btns + footer;
+            if (Question.type == 5) {                
+                $("#rateit" + Question.ques_no).rateit({ max: 5, step: .5, backingfld: '#backing7' });
+            }
+
+            if (blnNext == false) { $("#btnNext").hide(); }
+            if (blnPrev == false) { $("#btnPrev").hide(); }
+            if (blnSkip == false) { $("#btnSkip").hide(); }
+        }
+    </script>
+    <style type="text/css">
+        div.bigstars div.rateit-range
+        {
+            background: url('scripts/star-white32.png');
+            height: 32px;
+        }
+ 
+        div.bigstars div.rateit-hover
+        {
+            background: url('scripts/star-red32.png');
+        }
+ 
+        div.bigstars div.rateit-selected
+        {
+            background: url('scripts/star-gold32.png');
+        }
+ 
+        div.bigstars div.rateit-reset
+        {
+            background: url('scripts/star-black32.png');
+            width: 32px;
+            height: 32px;
+        }
+ 
+        div.bigstars div.rateit-reset:hover
+        {
+            background: url('scripts/star-white32.png');
+        }
+    </style>
+    <style type="text/css">
+        /* 'star-rating' component */
+        .starRating {
+            margin-left: -300px;
+        }
+
+            .starRating:not(old) {
+                display: inline-block;
+                width: 22em;
+                height: 2.2em;
+                overflow: hidden;
+                vertical-align: bottom;
+            }
+
+                .starRating:not(old) > input {
+                    margin-right: -100%;
+                    opacity: 0;
+                }
+
+                .starRating:not(old) > label {
+                    display: block;
+                    float: right;
+                    position: relative;
+                    background: url('star-off.svg');
+                    background-size: contain;
+                }
+
+                    .starRating:not(old) > label:before {
+                        content: '';
+                        display: block;
+                        width: 4.5em;
+                        height: 4.5em;
+                        background: url('star-on.svg');
+                        background-size: contain;
+                        opacity: 0;
+                        transition: opacity 0.2s linear;
+                    }
+
+                    .starRating:not(old) > label:hover:before,
+                    .starRating:not(old) > label:hover ~ label:before,
+                    .starRating:not(:hover) > :checked ~ label:before {
+                        opacity: 1;
+                    }
+    </style>
+</head>
+<body style="background: #ecf0f1;">
+<div class="container-fluid"> 	
+    <div id="survey-data" class="row survey-data"></div>
+</div>
+<footer class="footer" style="background: #607D8B;">
+      <div class="container">
+        	<p style="color:#fff;">2O% Completed</p>
+        	<div class="progress" style="height: 5px; width: 520px;">
+  				<div class="progress-bar" style="width: 10%;"></div>
+  			</div>
+      </div>
+</footer>
+</body>
+</html>
