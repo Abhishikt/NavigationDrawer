@@ -1,9 +1,8 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import android.os.AsyncTask;
 import android.util.Base64;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,7 +55,7 @@ public class FileUpload extends AsyncTask<Void,Void,String> {
         //BufferedReader reader = null;
         StringBuilder sBuilder = null;
         try {
-            boolean networkState=RTContants.socketCheck();
+            boolean networkState= RTContants.socketCheck();
             if(networkState==false){return "Not Connected";}
             URL url = new URL(RTContants.RTWEBSERVICE + "UploadFileAsString"); //http://10.0.2.2:52011/ResutlsTrackService.asmx/getuser
             urlConnection = (HttpURLConnection)url.openConnection();

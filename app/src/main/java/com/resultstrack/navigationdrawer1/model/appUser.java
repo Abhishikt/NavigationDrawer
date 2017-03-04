@@ -1,14 +1,15 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.model;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTContants;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,14 +25,11 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static com.resultstrack.navigationdrawer1.DBAdapter.DEBUG;
-import static com.resultstrack.navigationdrawer1.DBAdapter.USER_TABLE;
+import static com.resultstrack.navigationdrawer1.model.DBAdapter.USER_TABLE;
 
 /**
  * Created by abhishikt on 1/18/2017.

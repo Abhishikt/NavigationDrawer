@@ -36,6 +36,10 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
+import com.resultstrack.navigationdrawer1.model.DBAdapter;
+import com.resultstrack.navigationdrawer1.model.appUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,6 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
 import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 

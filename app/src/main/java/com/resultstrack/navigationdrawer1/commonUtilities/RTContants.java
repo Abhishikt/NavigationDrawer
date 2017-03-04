@@ -1,16 +1,14 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ProtocolException;
-import java.net.Socket;
+
 import android.app.Activity;
 
 /**

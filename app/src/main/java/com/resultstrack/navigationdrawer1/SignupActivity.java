@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
+import com.resultstrack.navigationdrawer1.model.DBAdapter;
+import com.resultstrack.navigationdrawer1.model.appUser;
+
 
 public class SignupActivity extends AppCompatActivity implements AsyncResponse {
     private static final int REQUEST_SIGNUP = 0;

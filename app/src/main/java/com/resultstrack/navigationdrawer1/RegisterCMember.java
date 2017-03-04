@@ -1,12 +1,10 @@
 package com.resultstrack.navigationdrawer1;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -18,10 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
+import com.resultstrack.navigationdrawer1.commonUtilities.GPSTracker;
+import com.resultstrack.navigationdrawer1.model.CommitteeMember;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;

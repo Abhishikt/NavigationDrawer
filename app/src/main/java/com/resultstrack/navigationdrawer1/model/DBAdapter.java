@@ -1,4 +1,4 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.model;
 
 import android.content.Context;
 import android.database.DatabaseUtils;

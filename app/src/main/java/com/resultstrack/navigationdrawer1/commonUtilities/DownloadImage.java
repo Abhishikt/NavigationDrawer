@@ -1,4 +1,4 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,7 +8,6 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;

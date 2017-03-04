@@ -2,23 +2,16 @@ package com.resultstrack.navigationdrawer1;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.media.RatingCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -32,10 +25,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.resultstrack.navigationdrawer1.commonUtilities.GPSTracker;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
+import com.resultstrack.navigationdrawer1.model.ChildReg;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Calendar;
 import java.util.UUID;
 
