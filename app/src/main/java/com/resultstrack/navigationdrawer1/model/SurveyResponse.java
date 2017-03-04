@@ -1,8 +1,7 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -10,17 +9,8 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 import java.util.UUID;
-
-import static com.resultstrack.navigationdrawer1.DBAdapter.USER_TABLE;
 
 /**
  * Created by abhishikt sk on 2/1/2017.

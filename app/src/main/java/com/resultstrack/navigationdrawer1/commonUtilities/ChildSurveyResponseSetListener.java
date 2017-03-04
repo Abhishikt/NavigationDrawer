@@ -1,4 +1,4 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import org.json.JSONArray;
 

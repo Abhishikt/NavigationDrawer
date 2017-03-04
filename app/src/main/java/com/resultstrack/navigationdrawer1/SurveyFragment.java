@@ -8,10 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
+import com.resultstrack.navigationdrawer1.commonUtilities.Java2JSAgent;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
+import com.resultstrack.navigationdrawer1.model.ChildReg;
+import com.resultstrack.navigationdrawer1.model.SurveyResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +24,6 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +32,7 @@ import java.util.UUID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SurveyFragment extends Fragment implements AsyncResponse{
+public class SurveyFragment extends Fragment implements AsyncResponse {
 
     private String currentURL;
     private ChildReg oChildReg=null;

@@ -1,6 +1,8 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import android.app.Application;
+
+import com.resultstrack.navigationdrawer1.model.appUser;
 
 import org.json.JSONArray;
 

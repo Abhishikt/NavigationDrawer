@@ -1,8 +1,10 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
+
+import com.resultstrack.navigationdrawer1.SurveyFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;

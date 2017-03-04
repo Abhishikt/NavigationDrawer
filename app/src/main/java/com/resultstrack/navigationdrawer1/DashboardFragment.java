@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 
 
 public class DashboardFragment extends Fragment {
@@ -21,7 +21,12 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        final View dView =  inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        Toast.makeText(getContext(), "Hello World", Toast.LENGTH_SHORT).show();
+
+        return dView;
+
     }
 
 

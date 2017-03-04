@@ -1,4 +1,4 @@
-package com.resultstrack.navigationdrawer1;
+package com.resultstrack.navigationdrawer1.commonUtilities;
 
 /**
  * Created by abhishikt on 1/24/2017.
