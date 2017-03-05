@@ -20,6 +20,7 @@ public class RTGlobal extends Application {
     private static String organizationId = "Org/1";
     private static boolean offlineFlg=false;
 
+
     public static JSONArray childSurveyResponse = null;
 
     public static String getOrganizationId() {
