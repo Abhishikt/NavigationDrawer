@@ -5,9 +5,49 @@
     tools:context="com.resultstrack.navigationdrawer1.SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Settings" />
+        android:text="Settings" />-->
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
+        <Switch
+            android:text="Data Offline "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/swtOffline"
+            android:splitTrack="false"
+            android:layout_margin="16dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:theme="@style/SwitchButton"
+            android:textSize="18sp" />
+
+        <Switch
+            android:text="Auto Synchronization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:splitTrack="false"
+            android:layout_margin="16dp"
+            android:id="@+id/swtAutoSync"
+            android:textColor="@color/colorPrimaryDark"
+            android:theme="@style/SwitchButton"
+            android:textSize="18sp"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:id="@+id/ratingBar"
+            android:stepSize="1"
+            android:rating="5"
+            android:theme="@style/SwitchButton"
+            android:elevation="0dp" />
+    </LinearLayout>
+
 
 </FrameLayout>
