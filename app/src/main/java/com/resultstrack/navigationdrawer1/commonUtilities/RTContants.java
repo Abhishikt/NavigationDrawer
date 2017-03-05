@@ -79,6 +79,8 @@ public final class RTContants extends Activity {
 
     private static boolean isInternetAvailable() {
         try {
+            //check if connection is offline
+            if(RTGlobal.isOfflineFlg()){return false;}
             InetAddress ipAddr = InetAddress.getByName(HTTP_HOST); //You can replace it with your name
             return !ipAddr.equals("");
 

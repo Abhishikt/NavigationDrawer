@@ -18,6 +18,7 @@ public class RTGlobal extends Application {
     private static String village="";
     private static String anganwadiCode="";
     private static String organizationId = "Org/1";
+    private static boolean offlineFlg=false;
 
     public static JSONArray childSurveyResponse = null;
 
@@ -27,6 +28,14 @@ public class RTGlobal extends Application {
 
     public static void setOrganizationId(String organizationId) {
         RTGlobal.organizationId = organizationId;
+    }
+
+    public static boolean isOfflineFlg() {
+        return offlineFlg;
+    }
+
+    public static void setOfflineFlg(boolean offlineFlg) {
+        RTGlobal.offlineFlg = offlineFlg;
     }
 
     public static appUser get_appUser() {
