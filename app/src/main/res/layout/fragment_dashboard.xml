@@ -1,13 +1,117 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.resultstrack.navigationdrawer1.DashboardFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Dashboard" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:rowCount="2"
+        android:columnCount="2">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_column="0"
+            android:layout_row="0">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:srcCompat="@android:drawable/stat_notify_sync"
+                android:foreground="@color/colorAccent"
+                android:id="@+id/imageViewChild" />
+
+            <TextView
+                android:id="@+id/txtTotalChildren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="Registered Children" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_column="1"
+            android:layout_row="0">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:srcCompat="@android:drawable/stat_notify_sync"
+                android:foreground="@color/colorAccent"
+                android:id="@+id/imageViewComMem" />
+            <TextView
+                android:id="@+id/txtComMem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="Dashboard" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_column="0"
+            android:layout_row="1">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:srcCompat="@android:drawable/stat_notify_sync"
+                android:foreground="@color/colorAccent"
+                android:id="@+id/imageViewMom" />
+            <TextView
+                android:id="@+id/txtMom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="Dashboard" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_column="1"
+            android:layout_row="1">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                app:srcCompat="@android:drawable/stat_notify_sync"
+                android:foreground="@color/colorAccent"
+                android:id="@+id/imageView" />
+            <TextView
+                android:id="@+id/txtAllSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="Dashboard1" />
+        </LinearLayout>
+    </GridLayout>
+
+    <!--<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Dashboard" />
+    </LinearLayout>-->
+
 
 </FrameLayout>
