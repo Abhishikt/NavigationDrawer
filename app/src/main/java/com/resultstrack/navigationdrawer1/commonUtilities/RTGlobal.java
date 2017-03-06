@@ -18,11 +18,29 @@ public class RTGlobal extends Application {
     private static String village="";
     private static String anganwadiCode="";
     private static String organizationId = "Org/1";
+    private static boolean offLineFlg=false;
+    private static boolean AutoSyncFlg=false;
+
+    public static boolean isAutoSyncFlg() {
+        return AutoSyncFlg;
+    }
+
+    public static void setAutoSyncFlg(boolean autoSyncFlg) {
+        AutoSyncFlg = autoSyncFlg;
+    }
 
     public static JSONArray childSurveyResponse = null;
 
     public static String getOrganizationId() {
         return organizationId;
+    }
+
+    public static boolean isOffLineFlg() {
+        return offLineFlg;
+    }
+
+    public static void setOffLineFlg(boolean offLineFlg) {
+        RTGlobal.offLineFlg = offLineFlg;
     }
 
     public static void setOrganizationId(String organizationId) {

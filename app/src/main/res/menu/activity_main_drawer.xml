@@ -30,7 +30,10 @@
                 android:id="@+id/nav_messages"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Messages" />
+            <item
+                android:id="@+id/nav_signout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Signout" />
         </menu>
     </item>
-
 </menu>

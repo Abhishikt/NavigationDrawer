@@ -26,15 +26,17 @@ public class DBAdapter {
     /******************** Database Name ************/
     public static final String DATABASE_NAME = "resultstrackDb";
     /**** Database Version (Increase one if want to also upgrade your database) ***/
-    public static final int DATABASE_VERSION = 2;// started at 1
+    public static final int DATABASE_VERSION = 5;// started at 1
     //    /** Table names */
     public static final String USER_TABLE = "tbl_user";
     public static final String CHILD_TABLE = "tbl_children";
     public static final String MEMBER_TABLE = "tbl_members";
     public static final String MOM_TABLE = "tbl_mom";
     public static final String SURVEY_RESPONSE_TABLE = "tbl_surveyResponse";
+    public static final String LOCAL_SETTINGS = "tbl_settings";
+
     /******* Set all table with comma seperated like USER_TABLE,ABC_TABLE *******/
-    private static final String[ ] ALL_TABLES = { USER_TABLE, CHILD_TABLE, MEMBER_TABLE, MOM_TABLE, SURVEY_RESPONSE_TABLE };
+    private static final String[ ] ALL_TABLES = { USER_TABLE, CHILD_TABLE, MEMBER_TABLE, MOM_TABLE, SURVEY_RESPONSE_TABLE, LOCAL_SETTINGS };
 
     /** Create table syntax */
     private static final String USER_CREATE = "create table if not exists" +
@@ -121,6 +123,14 @@ public class DBAdapter {
             "response_dt text" +
             ");";
 
+    //LOCAL_SETTINGS
+    private static final String LOCAL_SETTINGS_CREATE="create table if not exists" +
+            " tbl_settings ( " +
+            "id text primary key not null, " +
+            "property text not null, " +
+            "type text not null, " +
+            "value text not null" +
+            ");";
     /******************** Used to open database in syncronized way ************/
     private static DBAdapter.DataBaseHelper DBHelper = null;
 
@@ -155,6 +165,7 @@ public class DBAdapter {
                 db.execSQL(MEMBER_CREATE);
                 db.execSQL(MOM_CREATE);
                 db.execSQL(SURVEY_RESPONSE_CREATE);
+                db.execSQL(LOCAL_SETTINGS_CREATE);
 
             } catch (Exception exception) {
                 if (DEBUG)

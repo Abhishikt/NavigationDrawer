@@ -46,4 +46,16 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+    <string name="sync_time_intervals_prompt">Interval (in minutes)</string>
+    <integer-array name="sync_time_intervals">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </integer-array>
 </resources>

@@ -414,6 +414,7 @@ public class ChildReg implements Parcelable{
                 data.setVillageName(cursor.getString(10));
                 data.setPincode(cursor.getString(11));
                 data.setAnganwadiCode(cursor.getString(12));
+                data.setSurveyResponses(new SurveyResponse().getSurveyResponseList(data.getId()));
 
                 // Adding contact to list
                 childRegList.add(data);
