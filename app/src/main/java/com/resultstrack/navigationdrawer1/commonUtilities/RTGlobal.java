@@ -31,11 +31,11 @@ public class RTGlobal extends Application {
         RTGlobal.organizationId = organizationId;
     }
 
-    public static boolean isOfflineFlg() {
+    public static boolean isOffLineFlg() {
         return offlineFlg;
     }
 
-    public static void setOfflineFlg(boolean offlineFlg) {
+    public static void setOffLineFlg(boolean offlineFlg) {
         RTGlobal.offlineFlg = offlineFlg;
     }
 
