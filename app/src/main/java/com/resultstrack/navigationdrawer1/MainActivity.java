@@ -1,6 +1,7 @@
 package com.resultstrack.navigationdrawer1;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,11 @@ import android.widget.TextView;
 import com.resultstrack.navigationdrawer1.commonUtilities.DownloadImage;
 import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
 import com.resultstrack.navigationdrawer1.model.DBAdapter;
+import com.resultstrack.navigationdrawer1.model.LocalSettings;
 import com.resultstrack.navigationdrawer1.model.appUser;
+
+import java.io.File;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -172,6 +177,23 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = RegisterChildFragment.class;
         } else if (id == R.id.nav_messages) {
             fragmentClass = RegisterChildFragment.class;
+        }else if (id == R.id.nav_signout){
+            //Delete User
+            appUser user = RTGlobal.get_appUser();
+            user.deleteUserData();
+            //Clear Cache
+            LocalSettings setting = new LocalSettings().getLocalSettings("RememberMe").get(0);
+            setting.deleteSetting();
+            //Remove File
+            File fileDir = getApplicationContext().getFilesDir();
+            String fileFullName =fileDir + "/" +setting.getType();
+            if(new File(fileFullName).delete()){
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                return true;
+            }
         }
 
         try {

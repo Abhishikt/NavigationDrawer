@@ -147,6 +147,42 @@ public class appUser {
         this.anganwadiCode = anganwadiCode;
     }
 
+
+    public void saveOffline() {
+        try {
+            if(getUser(getEmail())==null) {
+                // Open database for Read / Write
+                final SQLiteDatabase db = DBAdapter.open();
+
+                ContentValues values = new ContentValues();
+                values.put("id", UUID.randomUUID().toString());
+                values.put("fstname", getFstname());
+                values.put("lstname", getLstname());
+                values.put("email", getEmail());
+                values.put("paswrd", getPaswrd());
+                values.put("mobile", getMobile());
+                values.put("usrtyp", getUsrtyp());
+                values.put("image", getImage());
+                values.put("loc", getLoc());
+                values.put("state", getState());
+                values.put("district", getDistrict());
+                values.put("block", getBlock());
+                values.put("villageName", getVillageName());
+                values.put("anganwadiCode", getAnganwadiCode());
+                // Insert user values in database
+                db.insert(DBAdapter.USER_TABLE, null, values);
+                db.close(); // Closing database connection
+            }
+        }
+        catch (SQLException e){
+            if(DBAdapter.DEBUG)
+                Log.i(DBAdapter.LOG_TAG, "SQLException onSaveUser() exception");
+        }catch (Exception e){
+            if(DBAdapter.DEBUG)
+                Log.i(DBAdapter.LOG_TAG, "Exception onSaveUser() exception");
+        }
+    }
+
     public void save() {
         try {
             // Open database for Read / Write

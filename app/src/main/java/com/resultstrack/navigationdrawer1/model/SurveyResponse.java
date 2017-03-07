@@ -1,6 +1,7 @@
 package com.resultstrack.navigationdrawer1.model;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +10,10 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -94,6 +98,42 @@ public class SurveyResponse implements Parcelable{
         this.response_dt = response_dt;
     }
 
+    public List<SurveyResponse> getSurveyResponseList(String surveyId){
+        List<SurveyResponse> lstResponse = new ArrayList<SurveyResponse>();
+        try{
+            // Select All Query
+            String selectQuery = "SELECT  * FROM " + DBAdapter.SURVEY_RESPONSE_TABLE;
+            // Open database for Read / Write
+            final SQLiteDatabase db = DBAdapter.open();
+            //Cursor cursor = db.rawQuery ( selectQuery, null );
+            Cursor cursor = db.query (DBAdapter.SURVEY_RESPONSE_TABLE,new String[] {
+                    "id","surveyId","organizationId","ques_id","ques_typ","response","response_dt"}, "surveyId"+"=?",
+                    new String[]{surveyId},null,null,null,null);
+
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    SurveyResponse data = new SurveyResponse();
+                    data.setId(cursor.getString(0));
+                    data.setSurveyId(cursor.getString(1));
+                    data.setOrganizationId(cursor.getString(2));
+                    data.setQues_id(cursor.getString(3));
+                    data.setQues_typ(Integer.parseInt(cursor.getString(4)));
+                    data.setResponse(cursor.getString(5));
+                    data.setResponseDate(cursor.getString(6));
+                    // Adding contact to list
+                    lstResponse.add(data);
+                } while (cursor.moveToNext());
+            }
+            // return user list
+            return lstResponse;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return lstResponse;
+        }
+    }
+
     public void save() {
         try {
             this.setId(UUID.randomUUID().toString());
@@ -107,7 +147,7 @@ public class SurveyResponse implements Parcelable{
             cVal.put("ques_id", getQues_id());
             cVal.put("ques_typ", getQues_typ());
             cVal.put("response", getResponse());
-            cVal.put("response_dt", new Date().toString());
+            cVal.put("response_dt", getResponseDate());
             // Insert user values in database
             sqlDb.insert(DBAdapter.SURVEY_RESPONSE_TABLE, null, cVal);
             //sqlDb.close(); // Closing database connection
@@ -130,7 +170,7 @@ public class SurveyResponse implements Parcelable{
             jsonObject.put("QuestionId", this.getQues_id());
             jsonObject.put("QuestionType", this.getQues_typ());
             jsonObject.put("Response", this.getResponse());
-            jsonObject.put("ResponseDate", this.getResponseDate());
+            jsonObject.put("ResponseDate", DateFormat.getDateTimeInstance().format(new Date()));
 
             return jsonObject;
 

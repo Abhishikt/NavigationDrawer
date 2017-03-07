@@ -3,9 +3,12 @@ package com.resultstrack.navigationdrawer1;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.SQLException;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +25,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.StringBuilderPrinter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +36,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -39,10 +45,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
 import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
 import com.resultstrack.navigationdrawer1.model.DBAdapter;
+import com.resultstrack.navigationdrawer1.model.LocalSettings;
 import com.resultstrack.navigationdrawer1.model.appUser;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -93,11 +107,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        /******************* Intialize Database *************/
-        DBAdapter.init(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        /******************* Intialize Database *************/
+        try {
+            DBAdapter.init(this);
+        }catch (SQLException ex){
+            Toast.makeText(this, "Error Connecting Database...Error: [" + ex.getMessage() + "]", Toast.LENGTH_SHORT).show();
+        }
 
         user = new appUser();
         //get delegate assigned for AsyncTask
@@ -141,9 +158,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        CheckUserCredentials();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void CheckUserCredentials() {
+        try{
+            //Auto Login
+            List<LocalSettings> settings = new LocalSettings().getLocalSettings("RememberMe");
+            if(settings.size()>0){
+
+                File fileDir = getApplicationContext().getFilesDir();
+                String fileName = settings.get(0).getType();
+                String fileFullName = fileDir + "/" + fileName;
+
+                FileInputStream inputStream = new FileInputStream(fileFullName); //openFileInput(fileFullName);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder sBuilder = new StringBuilder();
+                String line;
+                while((line = reader.readLine())!=null){
+                    sBuilder.append(line);
+                    sBuilder.append("\n");
+                }
+                reader.close();
+                inputStream.close();
+                if(settings.get(0).getValue().equals(sBuilder.toString())){
+
+                    String encodedUserCredentials = settings.get(0).getValue();
+                    byte[] bytes = Base64.decode(encodedUserCredentials,Base64.DEFAULT);
+                    String decodedCredentials = new String(bytes);
+                    String[] params = decodedCredentials.split("&");
+                    String userEmailId = params[0].split("=")[1];
+                    //Verify Local User
+                    appUser user = appUser.getUser(userEmailId);
+                    RTGlobal.set_appUser(user);
+
+                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    LoginActivity.this.startActivity(mainIntent);
+                    finish();
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void populateAutoComplete() {
@@ -343,7 +404,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (user.getPaswrd().equals(mPasswordView.getText().toString())) {
                 //set Global Variable
                 RTGlobal.set_appUser(user);
+                //Save User
+                user.saveOffline();
+                //Set Local Settings for "RememberMe"
+                List<LocalSettings> settings=new LocalSettings().getLocalSettings("RememberMe");
+                if(settings.size()==0){
+                    File fileDir = getApplicationContext().getFilesDir();
+                    String fileName = UUID.randomUUID().toString().replace("-","") +".tkn";
+                    String fileFullName =fileDir + "/" +fileName;
 
+                    String strCredetials = "UsrId="+user.getEmail()+ "&Pswrd="+user.getPaswrd();
+                    String encodedUserCredentials =  Base64.encodeToString(strCredetials.getBytes(),Base64.DEFAULT);
+                    LocalSettings setting = new LocalSettings("RememberMe",fileName,encodedUserCredentials);
+                    setting.save();
+
+                    //create Token File
+                    try {
+                        if(!fileDir.exists()){fileDir.mkdirs();}
+                        FileOutputStream outputStream = openFileOutput(fileName, getApplicationContext().MODE_PRIVATE);
+                        outputStream.write(encodedUserCredentials.getBytes());
+                        outputStream.close();
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                 LoginActivity.this.startActivity(mainIntent);
                 finish();

@@ -18,12 +18,12 @@ import android.app.Activity;
 public final class RTContants extends Activity {
 
     //LOCAL
-    /*public final static String HTTP_HOST = "192.168.0.100";  //"10.0.2.2";
+    public final static String HTTP_HOST = "192.168.0.100";  //"10.0.2.2";
     public final static int HTTP_HOST_PORT = 52011;
-    public final static String HTTP_HOST_SERVER_ROOT = "http://" + HTTP_HOST + ":" + HTTP_HOST_PORT;*/
+    public final static String HTTP_HOST_SERVER_ROOT = "http://" + HTTP_HOST + ":" + HTTP_HOST_PORT;
     //LIVE
-    public final static String HTTP_HOST = "services.resultstrack.in";  //"10.0.2.2";
-    public final static String HTTP_HOST_SERVER_ROOT = "http://" + HTTP_HOST ;
+    /*public final static String HTTP_HOST = "services.resultstrack.in";  //"10.0.2.2";
+    public final static String HTTP_HOST_SERVER_ROOT = "http://" + HTTP_HOST ;*/
     public final static String RTWEBSERVICE = HTTP_HOST_SERVER_ROOT + "/ResultsTrackMService.asmx/";
     public final static String HTTP_METHOD_POST = "POST";
     public final static String HTTP_METHOD_GET = "GET";
@@ -79,10 +79,10 @@ public final class RTContants extends Activity {
 
     private static boolean isInternetAvailable() {
         try {
-            //check if connection is offline
-            if(RTGlobal.isOfflineFlg()){return false;}
-            InetAddress ipAddr = InetAddress.getByName(HTTP_HOST); //You can replace it with your name
-            return !ipAddr.equals("");
+            if(RTGlobal.isOffLineFlg()){return false;}else {
+                InetAddress ipAddr = InetAddress.getByName(HTTP_HOST); //You can replace it with your name
+                return !ipAddr.equals("");
+            }
 
         } catch (Exception e) {
             return false;
