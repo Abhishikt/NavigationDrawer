@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +29,7 @@ import com.resultstrack.navigationdrawer1.model.LocalSettings;
 import com.resultstrack.navigationdrawer1.model.appUser;
 
 import java.io.File;
-import java.util.UUID;
+import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         final TabPageAdapter adapter = new TabPageAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(0);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -129,7 +131,16 @@ public class MainActivity extends AppCompatActivity
             if(count==0) {
                 backButtonHandler();
             }else {
-                if(count==1){tabLayout.setVisibility(View.VISIBLE);}
+                if(count==1){
+                    tabLayout.setVisibility(View.VISIBLE);
+                    Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.pager);
+                    if (currentFragment instanceof DashboardFragment) {
+                        FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+                        fragTransaction.detach(currentFragment);
+                        fragTransaction.attach(currentFragment);
+                        fragTransaction.commit();
+                    }
+                }
                 super.onBackPressed();
             }
         }
