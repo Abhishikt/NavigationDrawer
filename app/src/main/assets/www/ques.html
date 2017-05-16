@@ -73,6 +73,7 @@
                     answer.response = value;
                     break;
                 case 4:  //Multiple checkbox
+                    multiCheckbox = [];
                     for (var i = 0; i < Q.Choices.length; i++) {
                         var eid = "chk" + Q.ques_no + "_opt" + Q.Choices[i].option;
                         if ($("#" + eid)[0].checked) { multiCheckbox.push($("#" + eid).val()); }
