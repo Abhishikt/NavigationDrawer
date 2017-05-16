@@ -34,6 +34,7 @@ public final class HttpService extends AsyncTask<URL, String, String> {
     protected String doInBackground(URL... params) {
         return null;
     }
+
     public static boolean sendJsonData(JSONObject json, String operation, String param) {
         DataOutputStream doStream;
         //DataInputStream diStream;

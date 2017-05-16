@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.resultstrack.navigationdrawer1.commonUtilities.AsyncResponse;
 import com.resultstrack.navigationdrawer1.commonUtilities.RTContants;
+import com.resultstrack.navigationdrawer1.commonUtilities.RTGlobal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +34,16 @@ public class LocalSettings {
     private String property;
     private String type;
     private String value;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    private String userId;
 
     public String getId() {
         return id;
@@ -73,6 +84,7 @@ public class LocalSettings {
         this.property = property;
         this.type = type;
         this.value = value;
+        this.userId = RTGlobal.get_appUser().getId();
     }
 
     public void save() {
@@ -89,6 +101,7 @@ public class LocalSettings {
                 cVal.put("property", getProperty());
                 cVal.put("type", getType());
                 cVal.put("value", getValue());
+                cVal.put("userId",RTGlobal.get_appUser().getId());
 
                 // Insert user values in database
                 db.insert(DBAdapter.LOCAL_SETTINGS, null, cVal);
@@ -114,6 +127,7 @@ public class LocalSettings {
         values.put("property", getProperty());
         values.put("type", getType());
         values.put("value", getValue());
+        values.put("userId",RTGlobal.get_appUser().getId());
 
         // updating row
         return db.update(DBAdapter.LOCAL_SETTINGS, values, "id" + " = ?",
@@ -127,7 +141,9 @@ public class LocalSettings {
         String selectQuery = "SELECT  * FROM " + DBAdapter.LOCAL_SETTINGS;
         // Open database for Read / Write
         final SQLiteDatabase db = DBAdapter.open();
-        Cursor cursor = db.rawQuery ( selectQuery, null );
+        //Cursor cursor = db.rawQuery ( selectQuery, null );
+        Cursor cursor = db.query(DBAdapter.LOCAL_SETTINGS,new String[]{"id","property","type","value","userId"},
+                "userId"+"=?",new String[]{RTGlobal.get_appUser().getId()},null,null,null,null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -137,6 +153,7 @@ public class LocalSettings {
                 data.setProperty(cursor.getString(1));
                 data.setType(cursor.getString(2));
                 data.setValue(cursor.getString(3));
+                data.setUserId(cursor.getString(4));
 
                 // Adding contact to list
                 lstLocalSettings.add(data);
@@ -155,8 +172,8 @@ public class LocalSettings {
         final SQLiteDatabase db = DBAdapter.open();
 
         //Cursor cursor = db.rawQuery ( selectQuery, null );
-        Cursor cursor = db.query (DBAdapter.LOCAL_SETTINGS,new String[] { "id","property","type","value"}, "property"+"=?",
-                new String[]{property},null,null,null,null);
+        Cursor cursor = db.query (DBAdapter.LOCAL_SETTINGS,new String[] { "id","property","type","value","userId"}, "property=? AND userId=?",
+                new String[]{property,RTGlobal.get_appUser().getId()},null,null,null,null);
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -181,6 +198,5 @@ public class LocalSettings {
                 new String[] { String.valueOf(this.getId()) });
         db.close();
     }
-
 
 }

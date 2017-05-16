@@ -1,9 +1,11 @@
 package com.resultstrack.navigationdrawer1;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +90,13 @@ public class DashboardFragment extends Fragment implements AsyncResponse {
                 syncButton.setEnabled(true);
             }
         });
+
+        /*if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            mRecycler.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
+        }
+        else{
+            mRecycler.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
+        }*/
 
         return dView;
 
