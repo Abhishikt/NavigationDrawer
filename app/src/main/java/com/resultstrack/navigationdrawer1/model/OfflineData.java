@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -131,6 +132,13 @@ public class OfflineData {
                                     }
                                 } else {
                                     sBuilder.append(urlConnection.getResponseMessage());
+                                    InputStream inputStream = urlConnection.getErrorStream();
+                                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
+                                    String responseLine = null;
+                                    while ((responseLine = reader.readLine()) != null) {
+                                        sBuilder.append(responseLine);
+                                    }
+                                    //sBuilder.append(urlConnection.getErrorStream());
                                 }
                             }
                             return sBuilder.toString();

@@ -18,7 +18,7 @@ import android.app.Activity;
 public final class RTContants extends Activity {
 
     //LOCAL
-    /*public final static String HTTP_HOST = "192.168.0.100";  //"10.0.2.2";
+    /*public final static String HTTP_HOST = "10.0.2.2";  //"192.168.0.100";  //"10.0.2.2";
     public final static int HTTP_HOST_PORT = 52011;
     public final static String HTTP_HOST_SERVER_ROOT = "http://" + HTTP_HOST + ":" + HTTP_HOST_PORT;*/
     //LIVE
