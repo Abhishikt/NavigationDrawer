@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/childImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft = "5dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_dashboard_children" />
+
+    <TextView
+        android:id="@+id/child_name"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/childImage"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="Child Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/child_dob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/childImage"
+        android:layout_below="@+id/child_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="DOB:"
+        android:textColor="#000000"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/child_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/child_dob"
+        android:layout_below="@+id/child_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="gender"
+        android:textColor="#000000"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/child_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/child_gender"
+        android:layout_below="@+id/child_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:text="Parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/child_vulnerability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/child_parent"
+        android:layout_below="@+id/child_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:text="Vulnerable"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/report_incident"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight ="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_menu_send"
+        style="?android:attr/borderlessButtonStyle" />
+
+</RelativeLayout>

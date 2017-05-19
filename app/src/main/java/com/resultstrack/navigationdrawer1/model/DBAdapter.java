@@ -26,7 +26,7 @@ public class DBAdapter {
     /******************** Database Name ************/
     public static final String DATABASE_NAME = "resultstrackDb";
     /**** Database Version (Increase one if want to also upgrade your database) ***/
-    public static final int DATABASE_VERSION = 6;// started at 1
+    public static final int DATABASE_VERSION = 7;// started at 1
     //    /** Table names */
     public static final String USER_TABLE = "tbl_user";
     public static final String CHILD_TABLE = "tbl_children";
@@ -64,6 +64,7 @@ public class DBAdapter {
             "parentName text, " +
             "dateOfBirth text, " +
             "gender int, " +
+            "isMissing int, " +
             "image text," +
             "location text, " +
             "state text, " +

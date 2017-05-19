@@ -105,6 +105,17 @@
 
             </RadioGroup>
 
+            <Switch
+                android:id="@+id/swtMissing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:splitTrack="false"
+                android:text="Is child missing?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:theme="@style/SwitchButton" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

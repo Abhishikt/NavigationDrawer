@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = RegisterCMember.class;
         } else if (id == R.id.nav_mom) {
             fragmentClass = SendMom.class;
+        } else if (id == R.id.nav_reportIncident) {
+            fragmentClass = IncidentReportingFragment.class;
         } else if (id == R.id.nav_surveylist) {
             fragmentClass = SurveyFragment.class;
         } else if (id == R.id.nav_sync) {

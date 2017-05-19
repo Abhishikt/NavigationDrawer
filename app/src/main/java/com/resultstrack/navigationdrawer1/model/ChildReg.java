@@ -38,6 +38,7 @@ public class ChildReg implements Parcelable{
     private String parentName;
     private String dateOfBirth;
     private int gender;
+    private int isMissing;
     private String image;
     private String location;
     private String state;
@@ -106,6 +107,14 @@ public class ChildReg implements Parcelable{
         this.gender = gender;
     }
 
+    public int getIsMissing() {
+        return isMissing;
+    }
+
+    public void setIsMissing(int isMissing) {
+        this.isMissing = isMissing;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -164,13 +173,14 @@ public class ChildReg implements Parcelable{
 
     public ChildReg(){}
 
-    public ChildReg(String id, String name, String parentName, String dateOfBirth, int gender, String image, String location, String state, String district, String block, String villageName, String pincode, String anganwadiCode) {
+    public ChildReg(String id, String name, String parentName, String dateOfBirth, int gender,  int isMissing, String image, String location, String state, String district, String block, String villageName, String pincode, String anganwadiCode) {
         this.id = id;
         this.name = name;
         this.parentName = parentName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.image=image;
+        this.isMissing = isMissing;
+        this.image = image;
         this.location = location;
         this.state = state;
         this.district = district;
@@ -194,6 +204,7 @@ public class ChildReg implements Parcelable{
             cVal.put("parentName", getParentName());
             cVal.put("dateOfBirth", getDateOfBirth());
             cVal.put("gender", getGender());
+            cVal.put("isMissing", getIsMissing());
             cVal.put("image", getImage());
             cVal.put("location", getLocation());
             cVal.put("state", getState());
@@ -304,6 +315,106 @@ public class ChildReg implements Parcelable{
         }
     }
 
+    public void getChildren(final String searchText) {
+        try {
+
+            //sync data to server
+            new AsyncTask<String, String, String>(){
+                @Override
+                protected String doInBackground(String... params) {
+                    //DataOutputStream doStream;
+                    HttpURLConnection urlConnection = null;
+                    //BufferedReader reader = null;
+                    StringBuilder sBuilder = null;
+                    try {
+                        boolean networkState = RTContants.socketCheck();
+                        sBuilder = new StringBuilder();
+                        if(networkState==false){
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("d","Offline");
+                            sBuilder.append(jsonObject.toString());
+                            //return "Not Connected";
+                        }
+                        else {
+                            URL url = new URL(RTContants.RTWEBSERVICE + "searchchildren");
+                            urlConnection = (HttpURLConnection) url.openConnection();
+                            urlConnection = RTContants.setConnectionRequestDefaults(urlConnection);
+
+                            //JSON DATA OBJECT
+                            JSONObject data = new JSONObject();
+                            data.put("data", searchText);
+
+                            OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
+                            writer.write(data.toString());
+                            writer.flush();
+                            writer.close();
+
+                            int responseCode = urlConnection.getResponseCode();
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                BufferedReader bReader = new BufferedReader(new InputStreamReader(
+                                        urlConnection.getInputStream(), "utf-8"));
+                                String responseLine = null;
+                                while ((responseLine = bReader.readLine()) != null) {
+                                    sBuilder.append(responseLine);
+                                }
+                            } else {
+                                sBuilder.append(urlConnection.getResponseMessage());
+                            }
+                        }
+                        return sBuilder.toString();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return sBuilder.toString();
+                }
+
+                @Override
+                protected void onPostExecute(String response) {
+                    super.onPostExecute(response);
+
+                    ArrayList<ChildReg> childList= new ArrayList<ChildReg>();
+                    try {
+                        response = response.replace("(","").replace(");","");
+                        JSONObject root = new JSONObject(response);
+                        JSONArray list = new JSONArray(root.getString("d"));
+                        for (int i=0; i<list.length();i++){
+                            ChildReg oChild = new ChildReg();
+                            JSONObject obj=list.getJSONObject(i);
+
+                            oChild.setId(obj.getString("Id"));
+                            oChild.setName(obj.getString("ChildName"));
+                            oChild.setParentName(obj.getString("ParentName"));
+                            oChild.setDateOfBirth(obj.getString("DOB"));
+                            oChild.setGender(Integer.parseInt(obj.getString("Gender")));
+                            oChild.setIsMissing(0);//oChild.setIsMissing(Integer.parseInt(obj.getString("")));
+                            oChild.setImage(obj.getString("ImagePath"));
+                            oChild.setLocation(obj.getString("Location"));
+                            oChild.setState(obj.getString("State"));
+                            oChild.setDistrict(obj.getString("District"));
+                            oChild.setBlock(obj.getString("Block"));
+                            oChild.setVillageName(obj.getString("VillageName"));
+                            oChild.setPincode(obj.getString("Pincode"));
+                            oChild.setAnganwadiCode(obj.getString("Vulnerability"));
+                            childList.add(oChild);
+                        }
+                        delegate.processFinish(childList);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        delegate.processFinish(childList);
+                    }
+                }
+            }.execute();
+        }
+        catch (Exception e){
+            if(DBAdapter.DEBUG)
+                Log.i(DBAdapter.LOG_TAG, "Exception onSaveChildRegistration() exception");
+        }
+    }
+
     // Updating single data
     public int update() {
 
@@ -314,6 +425,7 @@ public class ChildReg implements Parcelable{
         values.put("parentName", getParentName());
         values.put("dateOfBirth", getDateOfBirth());
         values.put("gender", getGender());
+        values.put("isMissing", getIsMissing());
         values.put("gender", getImage());
         values.put("location", getLocation());
         values.put("state", getState());
@@ -335,7 +447,7 @@ public class ChildReg implements Parcelable{
         final SQLiteDatabase db = DBAdapter.open();
 
         Cursor cursor = db.query(DBAdapter.CHILD_TABLE, new String[] { "id",
-                        "name", "parentName", "dateOfBirth", "gender", "image", "location",
+                        "name", "parentName", "dateOfBirth", "gender", "isMissing", "image", "location",
                         "state", "district", "block", "villageName", "pincode", "anganwadiCode"}, "id" + "=?",
                 new String[] { String.valueOf(_id) }, null, null, null, null);
 
@@ -345,10 +457,10 @@ public class ChildReg implements Parcelable{
 
         ChildReg data = new ChildReg(cursor.getString(0),
                 cursor.getString(1),cursor.getString(2),cursor.getString(3),
-                Integer.parseInt(cursor.getString(4)),cursor.getString(5),
-                cursor.getString(6),cursor.getString(7),cursor.getString(8),
-                cursor.getString(9),cursor.getString(10),cursor.getString(11),
-                cursor.getString(12));
+                Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)),cursor.getString(6),
+                cursor.getString(7),cursor.getString(8),cursor.getString(9),
+                cursor.getString(10),cursor.getString(11),cursor.getString(12),
+                cursor.getString(13));
         // return user data
         return data;
     }
@@ -362,6 +474,7 @@ public class ChildReg implements Parcelable{
             jsonObject.put("ParentName", getParentName());
             jsonObject.put("DOB",getDateOfBirth());
             jsonObject.put("Gender",getGender());
+            jsonObject.put("IsMissing",getIsMissing());
             jsonObject.put("ImagePath",getImage());
             jsonObject.put("Location",getLocation());
             jsonObject.put("State",getState());
@@ -406,14 +519,15 @@ public class ChildReg implements Parcelable{
                 data.setParentName(cursor.getString(2));
                 data.setDateOfBirth(cursor.getString(3));
                 data.setGender(Integer.parseInt(cursor.getString(4)));
-                data.setImage(cursor.getString(5));
-                data.setLocation(cursor.getString(6));
-                data.setState(cursor.getString(7));
-                data.setDistrict(cursor.getString(8));
-                data.setBlock(cursor.getString(9));
-                data.setVillageName(cursor.getString(10));
-                data.setPincode(cursor.getString(11));
-                data.setAnganwadiCode(cursor.getString(12));
+                data.setIsMissing(Integer.parseInt(cursor.getString(5)));
+                data.setImage(cursor.getString(6));
+                data.setLocation(cursor.getString(7));
+                data.setState(cursor.getString(8));
+                data.setDistrict(cursor.getString(9));
+                data.setBlock(cursor.getString(10));
+                data.setVillageName(cursor.getString(11));
+                data.setPincode(cursor.getString(12));
+                data.setAnganwadiCode(cursor.getString(13));
                 data.setSurveyResponses(new SurveyResponse().getSurveyResponseList(data.getId()));
 
                 // Adding contact to list
@@ -456,6 +570,7 @@ public class ChildReg implements Parcelable{
         dest.writeString(parentName);
         dest.writeString(dateOfBirth);
         dest.writeInt(gender);
+        dest.writeInt(isMissing);
         dest.writeString(image);
         dest.writeString(location);
         dest.writeString(state);
@@ -484,6 +599,7 @@ public class ChildReg implements Parcelable{
         parentName = in.readString();
         dateOfBirth = in.readString();
         gender = in.readInt();
+        isMissing = in.readInt();
         image = in.readString();
         location = in.readString();
         state = in.readString();
@@ -494,4 +610,6 @@ public class ChildReg implements Parcelable{
         anganwadiCode = in.readString();
         in.readList(surveyResponses,SurveyResponse.class.getClassLoader());
     }
+
+
 }

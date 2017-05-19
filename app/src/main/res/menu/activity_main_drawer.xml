@@ -15,6 +15,10 @@
             android:icon="?android:attr/actionModePasteDrawable"
             android:title="Minutes of Meeting" />
         <item
+            android:id="@+id/nav_reportIncident"
+            android:icon="?android:attr/actionModePasteDrawable"
+            android:title="Incident Reporting" />
+        <item
             android:id="@+id/nav_surveylist"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="Surveys" />
